@@ -8,15 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -72,68 +71,71 @@ fun CoinDetailScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp, top = 64.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(horizontal = 16.dp)
+                .padding(top = 32.dp),
+            horizontalAlignment = Alignment.Start
         ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(coin.iconRes),
-                contentDescription = coin.name,
-                modifier = Modifier.size(100.dp),
-                tint = contentColor
-            )
 
-            Text(
-                text = coin.name,
-                fontSize = 40.sp,
-                fontWeight = FontWeight.Black,
-                color = contentColor,
-                textAlign = TextAlign.Center
-            )
-
-            Text(
-                text = coin.symbol,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Light,
-                color = contentColor,
-                textAlign = TextAlign.Center
-            )
-
-            FlowRow(
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
             ) {
-                CoinDetailCard(
-                    title = stringResource(R.string.market_cap),
-                    formattedText = "$ ${coin.marketCapUsd.formatted}",
-                    icon = ImageVector.vectorResource(R.drawable.ic_question_mark_24)
-                )
+                Column(
+                    modifier = Modifier,
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = coin.name,
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.Black,
+                        color = contentColor,
+                        textAlign = TextAlign.Start
+                    )
 
-                CoinDetailCard(
-                    title = stringResource(R.string.price),
-                    formattedText = "$ ${coin.priceUsd.formatted}",
-                    icon = ImageVector.vectorResource(R.drawable.ic_question_mark_24)
-                )
-
-                val absoluteChangeFormatted =
-                    (coin.priceUsd.value * (coin.changePercent24Hr.value / 100))
-                        .toDisplayableNumber()
-                val isPositive = coin.changePercent24Hr.value > 0.0
-                val contentColor = if (isPositive) {
-                    if (isSystemInDarkTheme()) Color.Green else greenBackground
-                } else {
-                    MaterialTheme.colorScheme.error
+                    Text(
+                        text = "1 ${coin.symbol} = $${coin.priceUsd.formatted}",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Light,
+                        color = contentColor,
+                        textAlign = TextAlign.Start,
+                    )
                 }
-                CoinDetailCard(
-                    title = stringResource(R.string.change_last_24_hr),
-                    formattedText = "$ ${absoluteChangeFormatted.formatted}",
-                    icon = if (isPositive) {
-                        ImageVector.vectorResource(R.drawable.ic_question_mark_24)
+
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(top = 4.dp),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    val isPositive = coin.changePercent24Hr.value > 0.0
+                    val changeString = if (isPositive) {
+                        "+${coin.changePercent24Hr.formatted}%"
                     } else {
-                        ImageVector.vectorResource(R.drawable.ic_question_mark_24)
-                    },
-                    contentColor = contentColor
-                )
+                        "${coin.changePercent24Hr.formatted}%"
+                    }
+                    val contentColor = if (isPositive) {
+                        if (isSystemInDarkTheme()) Color.Green else greenBackground
+                    } else {
+                        MaterialTheme.colorScheme.error
+                    }
+                    Text(
+                        text = changeString,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Light,
+                        color = contentColor,
+                        textAlign = TextAlign.End,
+                    )
+
+                    Text(
+                        text = "last 24 hours",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light,
+                        color = MaterialTheme.colorScheme.secondary,
+                        textAlign = TextAlign.End,
+                    )
+                }
+
             }
+
 
             AnimatedVisibility(
                 visible = coin.coinPriceHistory.isNotEmpty()
@@ -148,7 +150,7 @@ fun CoinDetailScreen(
                     mutableFloatStateOf(0f)
                 }
                 val visibleDataPointsCount = if (labelWidth > 0) {
-                    ((totalChartWidth - 2.5 * labelWidth) /  labelWidth).toInt()
+                    ((totalChartWidth - 2.5 * labelWidth) / labelWidth).toInt()
                 } else {
                     0
                 }
