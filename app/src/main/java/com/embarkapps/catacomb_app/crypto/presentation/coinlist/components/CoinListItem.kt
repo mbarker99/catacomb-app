@@ -20,10 +20,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.embarkapps.catacomb_app.crypto.domain.Coin
+import com.embarkapps.catacomb_app.crypto.domain.model.Coin
 import com.embarkapps.catacomb_app.crypto.presentation.model.CoinUi
 import com.embarkapps.catacomb_app.crypto.presentation.model.toCoinUi
-import com.embarkapps.catacomb_app.ui.theme.CryptoTrackerTheme
+import com.embarkapps.catacomb_app.ui.theme.CatacombTheme
 
 @Composable
 fun CoinListItem(
@@ -83,7 +83,7 @@ fun CoinListItem(
 @PreviewLightDark
 @Composable
 private fun CoinListItemPreview() {
-    CryptoTrackerTheme {
+    CatacombTheme {
         CoinListItem(
             coinUi = previewCoin,
             onClick = { /*TODO*/ },

@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.embarkapps.catacomb_app.crypto.presentation.model.DisplayableNumber
-import com.embarkapps.catacomb_app.ui.theme.CryptoTrackerTheme
+import com.embarkapps.catacomb_app.ui.theme.CatacombTheme
 import com.embarkapps.catacomb_app.ui.theme.greenBackground
 
 @Composable
@@ -69,7 +69,7 @@ fun PriceChange(
 @PreviewLightDark
 @Composable
 fun PriceChangePreview() {
-    CryptoTrackerTheme {
+    CatacombTheme {
         PriceChange(
             change = DisplayableNumber(value = 2.43, formatted = "2.43")
         )

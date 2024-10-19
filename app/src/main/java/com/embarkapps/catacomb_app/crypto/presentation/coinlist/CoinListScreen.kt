@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.embarkapps.catacomb_app.crypto.presentation.coinlist.components.CoinListItem
 import com.embarkapps.catacomb_app.crypto.presentation.coinlist.components.previewCoin
-import com.embarkapps.catacomb_app.ui.theme.CryptoTrackerTheme
+import com.embarkapps.catacomb_app.ui.theme.CatacombTheme
 
 @Composable
 fun CoinListScreen(
@@ -53,7 +53,7 @@ fun CoinListScreen(
 @PreviewLightDark
 @Composable
 fun CoinListScreenPreview(modifier: Modifier = Modifier) {
-    CryptoTrackerTheme {
+    CatacombTheme {
         CoinListScreen(
             state = CoinListState(
                 isLoading = false,

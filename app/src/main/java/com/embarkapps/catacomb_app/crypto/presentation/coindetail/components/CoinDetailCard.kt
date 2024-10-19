@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.embarkapps.catacomb_app.R
-import com.embarkapps.catacomb_app.ui.theme.CryptoTrackerTheme
+import com.embarkapps.catacomb_app.ui.theme.CatacombTheme
 
 @Composable
 fun CoinDetailCard(
@@ -112,7 +112,7 @@ fun CoinDetailCard(
 @Preview
 @Composable
 private fun CoinDetailCardPreview() {
-    CryptoTrackerTheme {
+    CatacombTheme {
         CoinDetailCard(
             title = "Price",
             formattedText = "$ 10,123.00",

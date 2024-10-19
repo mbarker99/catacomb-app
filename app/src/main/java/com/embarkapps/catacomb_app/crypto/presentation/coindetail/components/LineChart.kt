@@ -28,11 +28,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.embarkapps.catacomb_app.crypto.domain.CoinPrice
+import com.embarkapps.catacomb_app.crypto.domain.model.CoinPrice
 import com.embarkapps.catacomb_app.crypto.presentation.coindetail.ChartStyle
 import com.embarkapps.catacomb_app.crypto.presentation.coindetail.DataPoint
 import com.embarkapps.catacomb_app.crypto.presentation.coindetail.ValueLabel
-import com.embarkapps.catacomb_app.ui.theme.CryptoTrackerTheme
+import com.embarkapps.catacomb_app.ui.theme.CatacombTheme
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
@@ -367,7 +367,7 @@ private fun getSelectedDataPointIndex(
 @Preview
 @Composable
 private fun LineChartPreview() {
-    CryptoTrackerTheme {
+    CatacombTheme {
         val coinHistoryRandomized = remember {
             (1..20).map {
                 CoinPrice(

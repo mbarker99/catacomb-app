@@ -1,6 +1,7 @@
 package com.embarkapps.catacomb_app.crypto.presentation.coinlist
 
 import androidx.compose.runtime.Immutable
+import com.embarkapps.catacomb_app.crypto.domain.model.CoinMarket
 import com.embarkapps.catacomb_app.crypto.presentation.model.CoinUi
 
 /*
@@ -16,5 +17,6 @@ import com.embarkapps.catacomb_app.crypto.presentation.model.CoinUi
 data class CoinListState(
     val isLoading: Boolean = false,
     val coins: List<CoinUi> = emptyList(),
-    val selectedCoin: CoinUi? = null
+    val selectedCoin: CoinUi? = null,
+    val coinMarkets: List<CoinMarket> = emptyList()
 )

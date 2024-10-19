@@ -1,4 +1,4 @@
-package com.embarkapps.catacomb_app.crypto.domain
+package com.embarkapps.catacomb_app.crypto.domain.model
 
 import java.time.ZonedDateTime
 

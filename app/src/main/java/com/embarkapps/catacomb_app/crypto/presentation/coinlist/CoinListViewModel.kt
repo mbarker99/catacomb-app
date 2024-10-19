@@ -56,7 +56,7 @@ class CoinListViewModel(
         viewModelScope.launch {
             coinDataSource.getCoinHistory(
                 coinId = coinUi.id,
-                start = ZonedDateTime.now().minusDays(5),
+                start = ZonedDateTime.now().minusDays(7),
                 end = ZonedDateTime.now()
             )
                 .onSuccess { history ->
@@ -65,7 +65,7 @@ class CoinListViewModel(
                         .map {
                             DataPoint(
                                 x = it.dateTime.hour.toFloat(),
-                                y= it.priceUsd.toFloat(),
+                                y = it.priceUsd.toFloat(),
                                 xLabel = DateTimeFormatter
                                     .ofPattern("ha\nM/d")
                                     .format(it.dateTime)
@@ -82,6 +82,8 @@ class CoinListViewModel(
                 .onError { error ->
                     _events.send(CoinListEvent.Error(error))
                 }
+
+            loadMarketsForCoin(coinUi)
         }
     }
 
@@ -99,6 +101,24 @@ class CoinListViewModel(
                         it.copy(
                             isLoading = false,
                             coins = coins.map { it.toCoinUi() }
+                        )
+                    }
+                }
+                .onError { error ->
+                    _state.update { it.copy(isLoading = false) }
+                    _events.send(CoinListEvent.Error(error))
+                }
+        }
+    }
+
+    private fun loadMarketsForCoin(coinUi: CoinUi) {
+        viewModelScope.launch {
+            coinDataSource.getCoinMarkets(coinId = coinUi.id)
+                .onSuccess { markets ->
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            coinMarkets = markets
                         )
                     }
                 }

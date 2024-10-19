@@ -2,8 +2,8 @@ package com.embarkapps.catacomb_app.crypto.presentation.model
 
 import android.icu.text.NumberFormat
 import androidx.annotation.DrawableRes
-import com.embarkapps.catacomb_app.crypto.domain.Coin
 import com.embarkapps.catacomb_app.core.presentation.util.getDrawableIdForCoin
+import com.embarkapps.catacomb_app.crypto.domain.model.Coin
 import com.embarkapps.catacomb_app.crypto.presentation.coindetail.DataPoint
 import java.util.Locale
 

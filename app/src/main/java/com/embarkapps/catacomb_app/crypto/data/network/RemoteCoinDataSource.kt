@@ -6,12 +6,15 @@ import com.embarkapps.catacomb_app.core.domain.util.NetworkError
 import com.embarkapps.catacomb_app.core.domain.util.Result
 import com.embarkapps.catacomb_app.core.domain.util.map
 import com.embarkapps.catacomb_app.crypto.data.mapper.toCoin
+import com.embarkapps.catacomb_app.crypto.data.mapper.toCoinMarket
 import com.embarkapps.catacomb_app.crypto.data.mapper.toCoinPrice
 import com.embarkapps.catacomb_app.crypto.data.network.dto.CoinHistoryDto
+import com.embarkapps.catacomb_app.crypto.data.network.dto.CoinMarketResponseDto
 import com.embarkapps.catacomb_app.crypto.data.network.dto.CoinsResponseDto
-import com.embarkapps.catacomb_app.crypto.domain.Coin
 import com.embarkapps.catacomb_app.crypto.domain.CoinDataSource
-import com.embarkapps.catacomb_app.crypto.domain.CoinPrice
+import com.embarkapps.catacomb_app.crypto.domain.model.Coin
+import com.embarkapps.catacomb_app.crypto.domain.model.CoinMarket
+import com.embarkapps.catacomb_app.crypto.domain.model.CoinPrice
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
@@ -57,5 +60,18 @@ class RemoteCoinDataSource(
         }.map { response ->
             response.data.map { it.toCoinPrice() }
         }
+    }
+
+    override suspend fun getCoinMarkets(coinId: String): Result<List<CoinMarket>, NetworkError> {
+        return safeCall<CoinMarketResponseDto> {
+            httpClient.get(
+                urlString = constructUrl("/assets/${coinId}/markets")
+            ) {
+                parameter("limit", 50)
+            }
+        }.map { response ->
+            response.data.map { it.toCoinMarket() }
+        }
+
     }
 }
