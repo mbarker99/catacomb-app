@@ -51,8 +51,17 @@ class CoinListViewModel(
     }
 
     private fun selectCoin(coinUi: CoinUi) {
-        _state.update { it.copy(selectedCoin = coinUi) }
+        _state.update {
+            it.copy(
+                selectedCoin = coinUi,
+                coinMarkets = emptyList()
+            )
+        }
+        loadCoinHistory(coinUi)
+        loadMarketsForCoin(coinUi)
+    }
 
+    private fun loadCoinHistory(coinUi: CoinUi) {
         viewModelScope.launch {
             coinDataSource.getCoinHistory(
                 coinId = coinUi.id,
@@ -82,8 +91,6 @@ class CoinListViewModel(
                 .onError { error ->
                     _events.send(CoinListEvent.Error(error))
                 }
-
-            loadMarketsForCoin(coinUi)
         }
     }
 

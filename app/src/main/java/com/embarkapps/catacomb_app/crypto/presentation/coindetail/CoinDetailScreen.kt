@@ -3,7 +3,6 @@ package com.embarkapps.catacomb_app.crypto.presentation.coindetail
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -63,146 +62,149 @@ fun CoinDetailScreen(
         }
     } else if (state.selectedCoin != null) {
         val coin = state.selectedCoin
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
                 .padding(top = 32.dp),
             horizontalAlignment = Alignment.Start
         ) {
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Column(
-                    modifier = Modifier,
-                    horizontalAlignment = Alignment.Start
+            // Header
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text(
-                        text = coin.name,
-                        fontSize = 40.sp,
-                        fontWeight = FontWeight.Black,
-                        color = contentColor,
-                        textAlign = TextAlign.Start
-                    )
+                    Column(
+                        modifier = Modifier,
+                        horizontalAlignment = Alignment.Start
+                    ) {
+                        Text(
+                            text = coin.name,
+                            fontSize = 40.sp,
+                            fontWeight = FontWeight.Black,
+                            color = contentColor,
+                            textAlign = TextAlign.Start
+                        )
 
-                    Text(
-                        text = "1 ${coin.symbol} = $${coin.priceUsd.formatted}",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Light,
-                        color = contentColor,
-                        textAlign = TextAlign.Start,
-                    )
-                }
-
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(top = 4.dp),
-                    horizontalAlignment = Alignment.End
-                ) {
-                    val isPositive = coin.changePercent24Hr.value > 0.0
-                    val changeString = if (isPositive) {
-                        "+${coin.changePercent24Hr.formatted}%"
-                    } else {
-                        "${coin.changePercent24Hr.formatted}%"
-                    }
-                    val contentColor = if (isPositive) {
-                        if (isSystemInDarkTheme()) Color.Green else greenBackground
-                    } else {
-                        MaterialTheme.colorScheme.error
-                    }
-                    Text(
-                        text = changeString,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Light,
-                        color = contentColor,
-                        textAlign = TextAlign.End,
-                    )
-
-                    Text(
-                        text = "last 24 hours",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Light,
-                        color = MaterialTheme.colorScheme.secondary,
-                        textAlign = TextAlign.End,
-                    )
-                }
-
-            }
-
-
-            AnimatedVisibility(
-                visible = coin.coinPriceHistory.isNotEmpty()
-            ) {
-                var selectedDataPoint by remember {
-                    mutableStateOf<DataPoint?>(null)
-                }
-                var labelWidth by remember {
-                    mutableFloatStateOf(0f)
-                }
-                var totalChartWidth by remember {
-                    mutableFloatStateOf(0f)
-                }
-                val visibleDataPointsCount = if (labelWidth > 0) {
-                    ((totalChartWidth - 2.5 * labelWidth) / labelWidth).toInt()
-                } else {
-                    0
-                }
-                val startIndex = (coin.coinPriceHistory.lastIndex - visibleDataPointsCount)
-                    .coerceAtLeast(0)
-                LineChart(
-                    dataPoints = coin.coinPriceHistory,
-                    chartStyle = ChartStyle(
-                        chartLineColor = MaterialTheme.colorScheme.primary,
-                        unselectedColor = MaterialTheme.colorScheme.secondary.copy(
-                            alpha = 0.3f
-                        ),
-                        selectedColor = MaterialTheme.colorScheme.primary,
-                        helperLinesThicknessPx = 5f,
-                        axisLinesThicknessPx = 5f,
-                        labelFontSize = 14.sp,
-                        minYLabelSpacing = 25.dp,
-                        verticalPadding = 8.dp,
-                        horizontalPadding = 8.dp,
-                        xAxisLabelSpacing = 8.dp
-                    ),
-                    visibleDataPointsIndices = startIndex..coin.coinPriceHistory.lastIndex,
-                    unit = "$",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(16 / 9f)
-                        .onSizeChanged { totalChartWidth = it.width.toFloat() },
-                    selectedDataPoint = selectedDataPoint,
-                    onSelectedDataPoint = {
-                        selectedDataPoint = it
-                    },
-                    onXLabelWidthChange = { labelWidth = it }
-                )
-            }
-
-            Text(
-                text = "Markets",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Black,
-                color = MaterialTheme.colorScheme.onBackground,
-                textAlign = TextAlign.Start,
-                modifier = Modifier.padding(vertical = 16.dp)
-            )
-            HorizontalDivider()
-            AnimatedVisibility(
-                visible = state.coinMarkets.isNotEmpty()
-            ) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    items(state.coinMarkets) { market ->
-                        CoinMarketListItem(
-                            market = market,
-                            modifier = Modifier.fillMaxWidth()
+                        Text(
+                            text = "1 ${coin.symbol} = $${coin.priceUsd.formatted}",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Light,
+                            color = contentColor,
+                            textAlign = TextAlign.Start,
                         )
                     }
+
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(top = 4.dp),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        val isPositive = coin.changePercent24Hr.value > 0.0
+                        val changeString = if (isPositive) {
+                            "+${coin.changePercent24Hr.formatted}%"
+                        } else {
+                            "${coin.changePercent24Hr.formatted}%"
+                        }
+                        val contentColor = if (isPositive) {
+                            if (isSystemInDarkTheme()) Color.Green else greenBackground
+                        } else {
+                            MaterialTheme.colorScheme.error
+                        }
+                        Text(
+                            text = changeString,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Light,
+                            color = contentColor,
+                            textAlign = TextAlign.End,
+                        )
+
+                        Text(
+                            text = "last 24 hours",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Light,
+                            color = MaterialTheme.colorScheme.secondary,
+                            textAlign = TextAlign.End,
+                        )
+                    }
+
+                }
+            }
+
+            // Line graph
+            item {
+                AnimatedVisibility(
+                    visible = coin.coinPriceHistory.isNotEmpty()
+                ) {
+                    var selectedDataPoint by remember {
+                        mutableStateOf<DataPoint?>(null)
+                    }
+                    var labelWidth by remember {
+                        mutableFloatStateOf(0f)
+                    }
+                    var totalChartWidth by remember {
+                        mutableFloatStateOf(0f)
+                    }
+                    val visibleDataPointsCount = if (labelWidth > 0) {
+                        ((totalChartWidth - 2.5 * labelWidth) / labelWidth).toInt()
+                    } else {
+                        0
+                    }
+                    val startIndex = (coin.coinPriceHistory.lastIndex - visibleDataPointsCount)
+                        .coerceAtLeast(0)
+                    LineChart(
+                        dataPoints = coin.coinPriceHistory,
+                        chartStyle = ChartStyle(
+                            chartLineColor = MaterialTheme.colorScheme.primary,
+                            unselectedColor = MaterialTheme.colorScheme.secondary.copy(
+                                alpha = 0.3f
+                            ),
+                            selectedColor = MaterialTheme.colorScheme.primary,
+                            helperLinesThicknessPx = 5f,
+                            axisLinesThicknessPx = 5f,
+                            labelFontSize = 14.sp,
+                            minYLabelSpacing = 25.dp,
+                            verticalPadding = 8.dp,
+                            horizontalPadding = 8.dp,
+                            xAxisLabelSpacing = 8.dp
+                        ),
+                        visibleDataPointsIndices = startIndex..coin.coinPriceHistory.lastIndex,
+                        unit = "$",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(16 / 9f)
+                            .onSizeChanged { totalChartWidth = it.width.toFloat() },
+                        selectedDataPoint = selectedDataPoint,
+                        onSelectedDataPoint = {
+                            selectedDataPoint = it
+                        },
+                        onXLabelWidthChange = { labelWidth = it }
+                    )
+                }
+            }
+
+            // Markets
+            item {
+                Text(
+                    text = "Markets",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Black,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.padding(vertical = 16.dp)
+                )
+                HorizontalDivider()
+            }
+
+            items(state.coinMarkets) { market ->
+                AnimatedVisibility(
+                    visible = state.coinMarkets.isNotEmpty()
+                ) {
+                    CoinMarketListItem(
+                        market = market,
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
             }
         }

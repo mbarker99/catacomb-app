@@ -3,8 +3,10 @@ package com.embarkapps.catacomb_app.crypto.presentation.coinlist
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
@@ -15,7 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.embarkapps.catacomb_app.crypto.presentation.coinlist.components.CoinListItem
+import com.embarkapps.catacomb_app.crypto.presentation.coinlist.components.WalletCard
 import com.embarkapps.catacomb_app.crypto.presentation.coinlist.components.previewCoin
+import com.embarkapps.catacomb_app.crypto.presentation.model.toDisplayableNumber
 import com.embarkapps.catacomb_app.ui.theme.CatacombTheme
 
 @Composable
@@ -34,19 +38,33 @@ fun CoinListScreen(
             CircularProgressIndicator()
         }
     } else {
-        LazyColumn(
-            modifier = modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            items(state.coins) { coinUi ->
-                CoinListItem(
-                    coinUi = coinUi,
-                    onClick = { onAction(CoinListAction.OnCoinClick(coinUi)) },
-                    modifier = Modifier.fillMaxWidth()
-                )
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                item {
+                    WalletCard(
+                        balance = 2222.22.toDisplayableNumber(),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                items(state.coins) { coinUi ->
+                    CoinListItem(
+                        coinUi = coinUi,
+                        onClick = { onAction(CoinListAction.OnCoinClick(coinUi)) },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
+
     }
 }
 
