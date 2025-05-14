@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -17,11 +19,24 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val keystoreFile = project.rootProject.file("local.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+
+        val apiKey = properties.getProperty("API_KEY") ?: ""
+
+        buildConfigField(
+            type = "String",
+            name = "API_KEY",
+            value = apiKey
+        )
+
     }
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://api.coincap.io/v2/\"")
+            buildConfigField("String", "BASE_URL", "\"https://rest.coincap.io/v3/\"")
         }
         release {
             isMinifyEnabled = false
@@ -29,7 +44,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BASE_URL", "\"https://api.coincap.io/v2/\"")
+            buildConfigField("String", "BASE_URL", "\"https://rest.coincap.io/v3/\"")
         }
     }
     compileOptions {

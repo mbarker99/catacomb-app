@@ -8,9 +8,10 @@ import com.embarkapps.catacomb_app.BuildConfig
     handle url strings.
  */
 fun constructUrl(url: String): String {
+    val apiKey = BuildConfig.API_KEY
     return when {
-        url.contains(BuildConfig.BASE_URL) -> url
-        url.startsWith("/") -> BuildConfig.BASE_URL + url.drop(1)
-        else -> BuildConfig.BASE_URL + url
+        url.contains(BuildConfig.BASE_URL) -> "$url?apiKey=$apiKey"
+        url.startsWith("/") -> BuildConfig.BASE_URL + url.drop(1) + "?apiKey=$apiKey"
+        else -> BuildConfig.BASE_URL + url + "?apiKey=$apiKey"
     }
 }

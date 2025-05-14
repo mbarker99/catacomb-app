@@ -17,9 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.embarkapps.catacomb_app.crypto.presentation.coinlist.components.CoinListItem
-import com.embarkapps.catacomb_app.crypto.presentation.coinlist.components.WalletCard
 import com.embarkapps.catacomb_app.crypto.presentation.coinlist.components.previewCoin
-import com.embarkapps.catacomb_app.crypto.presentation.model.toDisplayableNumber
 import com.embarkapps.catacomb_app.ui.theme.CatacombTheme
 
 @Composable
@@ -49,12 +47,12 @@ fun CoinListScreen(
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                item {
+                /*item {
                     WalletCard(
                         balance = 2222.22.toDisplayableNumber(),
                         modifier = Modifier.fillMaxWidth()
                     )
-                }
+                }*/
                 items(state.coins) { coinUi ->
                     CoinListItem(
                         coinUi = coinUi,
