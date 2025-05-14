@@ -19,3 +19,18 @@ This app was specifically designed as a learning tool for me, just to learn Ktor
 - Material3 Theming
 
 ## Screenshots
+
+## Installation
+Clone this repository and import into **Android Studio**
+```bash
+gh repo clone mbarker99/catacomb-app
+```
+
+## API Configuration
+1. Create your own account for the [CoinCap API](https://pro.coincap.io/api-docs)
+2. Generate your own API key.
+3. Add this line to your `local.properties` file
+
+   ```
+   API_KEY = "api_key_you_generated_in_step_2"
+   ```
