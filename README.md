@@ -2,6 +2,13 @@
 
 This app was specifically designed as a learning tool for me, just to learn Ktor and Koin as alternatives to Retrofit and Dagger/Hilt, respectively.
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Min%20SDK-26-blue.svg" alt="Min SDK">
+  <img src="https://img.shields.io/badge/Target%20SDK-34-brightgreen.svg" alt="Target SDK">
+  <img src="https://img.shields.io/badge/Kotlin-2.0.20-purple.svg" alt="Kotlin Version">
+  <img src="https://img.shields.io/badge/Jetpack%20ComposeBom-2024.09.02-orange.svg" alt="Jetpack Compose Version">
+</p>
+
 ## Features
 
 - Uses the CoinCap API to display information about the most popular cryptocurrencies and their current prices.
