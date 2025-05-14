@@ -5,9 +5,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,10 +31,23 @@ fun CoinListItem(
     Row(
         modifier = modifier
             .clickable(onClick = onClick)
-            .padding(16.dp),
+            .padding(horizontal = 16.dp)
+            .padding(vertical = 8.dp)
+            .height(72.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+
+        Column(
+        ) {
+            Text(
+                text = coinUi.rank.toString(),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
+
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -48,7 +61,7 @@ fun CoinListItem(
             Text(
                 text = coinUi.name,
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Light,
+                fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
@@ -57,17 +70,19 @@ fun CoinListItem(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "$ ${coinUi.priceUsd.formatted}",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
+                text = "$${coinUi.priceUsd.formatted}",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colorScheme.onBackground
             )
-            Spacer(modifier = Modifier.size(8.dp))
             PriceChange(
                 change = coinUi.changePercent24Hr
             )
         }
+
     }
+    HorizontalDivider(Modifier.height(1.dp))
+
 }
 
 @PreviewLightDark
